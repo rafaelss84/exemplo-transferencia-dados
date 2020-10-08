@@ -1,28 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { TextoService } from '../texto.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-filho',
   templateUrl: './filho.component.html',
   styleUrls: ['./filho.component.css']
 })
-export class FilhoComponent implements OnInit, OnDestroy {
+export class FilhoComponent implements OnInit {
 
   campoFilho: string = 'Campo filho original';
-  private campoFilhoSub: Subscription;
+  @Output() textoAtualizado = new EventEmitter<string>();
 
-  constructor(private textoService: TextoService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.campoFilhoSub = this.textoService.getTextoAtualizado()
-      .subscribe(novoTexto => {
-        this.campoFilho = novoTexto;
-      });
   }
 
-  ngOnDestroy() {
-    this.campoFilhoSub.unsubscribe();
+  onTextoAtualizado(novoTexto: string) {
+    this.campoFilho = novoTexto;
+    this.textoAtualizado.emit(this.campoFilho);
   }
 
 }

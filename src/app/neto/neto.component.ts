@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { TextoService } from '../texto.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-neto',
@@ -9,14 +8,15 @@ import { TextoService } from '../texto.service';
 export class NetoComponent implements OnInit {
 
   campoNeto: string;
+  @Output() textoAtualizado = new EventEmitter<string>();
 
-  constructor(private textoService: TextoService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
   onEnviar() {
-    this.textoService.atualizaTexto(this.campoNeto);
+    this.textoAtualizado.emit(this.campoNeto);
   }
 
 }
